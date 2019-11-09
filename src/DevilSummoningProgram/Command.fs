@@ -29,7 +29,16 @@ command:
 
     let summonCommand() = Console.WriteLine("not implemented.")
 
-    let registerCommand() = ()
+    let registerCommand() =
+        Console.ForegroundColor <- ConsoleColor.Blue
+        Console.Write("input devil's name> ")
+        Console.ResetColor()
+        let name = Console.ReadLine().Trim().ToLower()
+        Console.ForegroundColor <- ConsoleColor.Blue
+        Console.Write("input devil's race> ")
+        Console.ResetColor()
+        let race = Console.ReadLine().Trim().ToLower()
+        printfn "%s %s" race name
 
     let updateCommand() = Console.WriteLine("not implemented.")
 
