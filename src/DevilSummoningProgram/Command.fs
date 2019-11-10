@@ -1,9 +1,8 @@
 namespace DevilSummoningProgram
 
 open System
-open DevilSummoningProgram.ResultBuilder
+open DevilSummoningProgram
 open DevilSummoningProgram.Json
-open DevilSummoningProgram.Race
 open DevilSummoningProgram.Devil
 
 [<RequireQualifiedAccessAttribute>]
@@ -14,6 +13,7 @@ module Command =
         | Summon
         | Register
         | Update
+        | List
         | Exit
         | NotImplemented
 
@@ -43,7 +43,7 @@ command:
                 let race = domain.race
 
                 let text =
-                    sprintf "%A %s\n" race name
+                    sprintf "[%A %s]\n" race name
                 Console.WriteLine(text)
             | Error(ex) ->
                 let text = sprintf "%A" ex
@@ -89,6 +89,12 @@ command:
 
     let updateCommand() = Console.WriteLine("not implemented.")
 
+    module List =
+
+        let command() =
+            Common.printColoredTexts ConsoleColor.Cyan [ ""; "Devil Data List"; "" ]
+            ()
+
     let exitCommand() =
         Console.Clear()
         Common.printColoredTexts ConsoleColor.DarkRed [ ""; "Kill this process. Bye."; "" ]
@@ -102,5 +108,6 @@ command:
         | Summon -> Summon.command()
         | Register -> Register.command()
         | Update -> updateCommand()
+        | List -> List.command()
         | Exit -> exitCommand()
         | _ -> doNothingCommand()
