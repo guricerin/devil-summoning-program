@@ -5,7 +5,7 @@
 
 ```bash
 $ cd devil-summoning-program/
-$ dotnet run --project src/DevilSummoningProgram
+$ dotnet run --project src/DevilSummoningProgram/
 ```
 
 ## Warning

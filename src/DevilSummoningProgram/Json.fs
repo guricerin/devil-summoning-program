@@ -1,7 +1,5 @@
 namespace DevilSummoningProgram.Json
 
-
-
 [<RequireQualifiedAccessAttribute>]
 module JsonWrapper =
 
@@ -35,6 +33,14 @@ module JsonFileIO =
         else
             let msg = "The devil data does not exist. If you want to save the new data, input register | r command."
             Error(msg)
+
+    let readAll() =
+        let files = Directory.EnumerateFiles(jsonFileDir, "*.json")
+        seq {
+            for file in files do
+                use sr = new StreamReader(file, System.Text.Encoding.UTF8)
+                yield sr.ReadToEnd()
+        }
 
     let write devilName (jsonStr: string) =
         let path = devilDataPath devilName

@@ -5,7 +5,7 @@ module Repl =
 
     let private printPrompt() = printf "$ "
 
-    let private read() = Console.ReadLine().Trim()
+    let private read() = Console.ReadLine().Trim().ToLower()
 
     let private eval str =
         match str with

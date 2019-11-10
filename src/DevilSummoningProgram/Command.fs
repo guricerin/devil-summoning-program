@@ -92,8 +92,25 @@ command:
     module List =
 
         let command() =
+            Console.Clear()
             Common.printColoredTexts ConsoleColor.Cyan [ ""; "Devil Data List"; "" ]
-            ()
+            let jsons = JsonFileIO.readAll()
+
+            let devils =
+                seq {
+                    for json in jsons do
+                        match DevilJson.jsonToDomain json with
+                        | Ok(domain) ->
+                            let name = domain.name |> Domain.String50.value
+                            let race = domain.race
+
+                            let text =
+                                sprintf "[%A %s]\n" race name
+                            yield text
+                        | Error(ex) -> ()
+                }
+                |> Seq.cache
+            devils |> Seq.iter (fun x -> Console.WriteLine(x))
 
     let exitCommand() =
         Console.Clear()
