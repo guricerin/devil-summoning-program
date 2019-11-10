@@ -16,7 +16,7 @@ command:
   exit              Kill this process.
 ```
 
-## Build
+## Run
 
 ```bash
 $ cd devil-summoning-program/
