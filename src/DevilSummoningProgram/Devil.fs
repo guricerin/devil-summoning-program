@@ -50,7 +50,7 @@ module Dto =
 [<RequireQualifiedAccessAttribute>]
 module DevilJson =
 
-    open DevilSummoningProgram.Json
+    open DevilSummoningProgram.JsonUtil
 
     /// serialize a Devil into a JSON string
     let jsonFromDomain (devil: Domain.Devil) =

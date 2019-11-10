@@ -1,4 +1,4 @@
-namespace DevilSummoningProgram.Json
+namespace DevilSummoningProgram.JsonUtil
 
 [<RequireQualifiedAccessAttribute>]
 module JsonWrapper =
@@ -42,11 +42,15 @@ module JsonFileIO =
                 yield sr.ReadToEnd()
         }
 
-    let write devilName (jsonStr: string) =
+    let write (force: bool) (devilName: string) (jsonStr: string) =
         let path = devilDataPath devilName
-        if checkFileExist path then
+        if checkFileExist path && not force then
             let msg = "The devil data alredy has exist. If you want to fix the data, input update | u command."
             failwith msg
         else
             use sw = new StreamWriter(path, false)
             sw.Write(jsonStr)
+
+    let checkDevilFileExist devilName =
+        let path = devilDataPath devilName
+        checkFileExist path

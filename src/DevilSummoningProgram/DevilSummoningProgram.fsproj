@@ -7,7 +7,7 @@
   <ItemGroup>
     <Compile Include="Common.fs" />
     <Compile Include="ResultBuilder.fs" />
-    <Compile Include="Json.fs" />
+    <Compile Include="JsonUtil.fs" />
     <Compile Include="Race.fs" />
     <Compile Include="Devil.fs" />
     <Compile Include="Spell.fs" />

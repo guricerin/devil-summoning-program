@@ -2,7 +2,7 @@ namespace DevilSummoningProgram
 
 open System
 open DevilSummoningProgram
-open DevilSummoningProgram.Json
+open DevilSummoningProgram.JsonUtil
 open DevilSummoningProgram.Devil
 
 [<RequireQualifiedAccessAttribute>]
@@ -28,7 +28,7 @@ command:
   register | r      Register a new devil.
   update | u        Update a registerd devil's data.
   list | ls         Display registered devil's data.
-  exit              Kill the program.
+  exit              Kill this process.
 "
         Console.WriteLine(text)
 
@@ -82,14 +82,55 @@ command:
                 try
                     domain
                     |> DevilJson.jsonFromDomain
-                    |> JsonFileIO.write (domain.name |> Domain.String50.value)
-                    Common.printColoredTexts ConsoleColor.Cyan [ ""; "Registerd a new devil."; "" ]
+                    |> JsonFileIO.write false (domain.name |> Domain.String50.value)
+                    Common.printColoredTexts ConsoleColor.Cyan [ ""; "Registerd the new devil."; "" ]
                 with ex ->
                     Common.printColoredTexts ConsoleColor.Red [ ""; "Error occured."; "" ]
                     Console.WriteLine(ex)
             | Error(msg) -> Common.printColoredTexts ConsoleColor.Red [ ""; msg; "" ]
 
-    let updateCommand() = Console.WriteLine("not implemented.")
+    module Update =
+
+        let dtoDevilFromInput (devil: Domain.Devil): Dto.Devil =
+            Console.ForegroundColor <- ConsoleColor.Cyan
+            Console.Write("input devil's race> ")
+            Console.ResetColor()
+            let race = Console.ReadLine().Trim().ToLower()
+            // jsonファイルを上書きさせるため、名前だけはそのまま
+            { name = devil.name |> Domain.String50.value
+              race = race }
+
+        let writeForce (devil: Domain.Devil) =
+            let devil = dtoDevilFromInput devil |> Dto.Devil.toDomain
+            match devil with
+            | Ok(domain) ->
+                domain
+                |> DevilJson.jsonFromDomain
+                |> JsonFileIO.write true (domain.name |> Domain.String50.value)
+                Common.printColoredTexts ConsoleColor.Cyan [ ""; "Update a devil data."; "" ]
+            | Error(msg) -> Common.printColoredTexts ConsoleColor.Red [ ""; msg; "" ]
+
+        let yesOrNo (devil: Domain.Devil) =
+            Console.Write(devilDatailText devil)
+            let msg = "Update this devil data? [y/n] (default: y)"
+            Common.printColoredTexts ConsoleColor.Yellow [ ""; msg ]
+            Console.Write(">")
+            let input = Console.ReadLine().Trim().ToLower()
+            match input with
+            | _ when input = "y" || input = "" -> writeForce devil
+            | _ -> ()
+
+        let command() =
+            Console.ForegroundColor <- ConsoleColor.Cyan
+            Console.Write("input devil's name> ")
+            Console.ResetColor()
+            let name = Console.ReadLine().Trim().ToLower()
+            match JsonFileIO.read name with
+            | Ok(jsonStr) ->
+                match DevilJson.jsonToDomain jsonStr with
+                | Ok(domain) -> yesOrNo domain
+                | Error(_) -> failwith "unreachable!"
+            | Error(msg) -> Common.printColoredTexts ConsoleColor.DarkRed [ ""; msg; "" ]
 
     module Ls =
 
@@ -121,7 +162,7 @@ command:
         | Help -> helpCommand()
         | Summon -> Summon.command()
         | Register -> Register.command()
-        | Update -> updateCommand()
+        | Update -> Update.command()
         | Ls -> Ls.command()
         | Exit -> exitCommand()
         | _ -> doNothingCommand()

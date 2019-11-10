@@ -13,8 +13,7 @@ command:
   register | r      Register a new devil.
   update | u        Update a registerd devil data.
   list | ls         Display registered devils data.
-  exit              Kill the program.
-```
+  exit              Kill this process.
 
 ## Build
 
