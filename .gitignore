@@ -357,6 +357,7 @@ MigrationBackup/
 
 .ionide/
 
-!.gitkeep
 !devil-data-book/
 devil-data-book/*
+
+!.gitkeep
