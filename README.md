@@ -1,6 +1,8 @@
 # devil-summoning-program
 悪魔召喚プログラム
 
+![preview](https://user-images.githubusercontent.com/38801778/68542306-b6ab4980-03ee-11ea-80af-eed3923e61ae.png)
+
 ## Usage
 
 ```bash
