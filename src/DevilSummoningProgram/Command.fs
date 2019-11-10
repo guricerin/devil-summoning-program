@@ -32,6 +32,11 @@ command:
 "
         Console.WriteLine(text)
 
+    let devilDatailText (devil: Domain.Devil) =
+        let name = devil.name |> Domain.String50.value
+        let race = devil.race
+        sprintf "[%A %s]\n" race name
+
     module Summon =
 
         let displayDevilData jsonStr =
@@ -40,11 +45,7 @@ command:
                 Console.Clear()
                 Common.printColoredTexts ConsoleColor.Cyan [ ""; "Summon the devil." ]
                 Spell.printHexagram()
-                let name = domain.name |> Domain.String50.value
-                let race = domain.race
-
-                let text =
-                    sprintf "[%A %s]\n" race name
+                let text = devilDatailText domain
                 Console.WriteLine(text)
             | Error(ex) ->
                 let text = sprintf "%A" ex
@@ -92,26 +93,21 @@ command:
 
     module Ls =
 
+        let devilDetails jsons =
+            seq {
+                for json in jsons do
+                    match DevilJson.jsonToDomain json with
+                    | Ok(domain) -> yield devilDatailText domain
+                    | Error(ex) -> ()
+            }
+
         let command() =
             Console.Clear()
             Common.printColoredTexts ConsoleColor.Cyan [ ""; "Devil Data List"; "" ]
-            let jsons = JsonFileIO.readAll()
-
-            let devils =
-                seq {
-                    for json in jsons do
-                        match DevilJson.jsonToDomain json with
-                        | Ok(domain) ->
-                            let name = domain.name |> Domain.String50.value
-                            let race = domain.race
-
-                            let text =
-                                sprintf "[%A %s]\n" race name
-                            yield text
-                        | Error(ex) -> ()
-                }
-                |> Seq.cache
-            devils |> Seq.iter (fun x -> Console.WriteLine(x))
+            JsonFileIO.readAll()
+            |> devilDetails
+            |> Seq.cache
+            |> Seq.iter (fun x -> Console.WriteLine(x))
 
     let exitCommand() =
         Console.Clear()
