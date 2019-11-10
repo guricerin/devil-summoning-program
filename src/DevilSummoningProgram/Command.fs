@@ -13,7 +13,7 @@ module Command =
         | Summon
         | Register
         | Update
-        | List
+        | Ls
         | Exit
         | NotImplemented
 
@@ -89,7 +89,7 @@ command:
 
     let updateCommand() = Console.WriteLine("not implemented.")
 
-    module List =
+    module Ls =
 
         let command() =
             Console.Clear()
@@ -125,6 +125,6 @@ command:
         | Summon -> Summon.command()
         | Register -> Register.command()
         | Update -> updateCommand()
-        | List -> List.command()
+        | Ls -> Ls.command()
         | Exit -> exitCommand()
         | _ -> doNothingCommand()

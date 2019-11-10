@@ -13,7 +13,7 @@ module Repl =
         | _ when str = "summon" || str = "s" -> Command.Summon
         | _ when str = "register" || str = "r" -> Command.Register
         | _ when str = "update" || str = "u" -> Command.Update
-        | _ when str = "list" || str = "ls" -> Command.List
+        | _ when str = "list" || str = "ls" -> Command.Ls
         | _ when str = "exit" -> Command.Exit
         | _ -> Command.NotImplemented
 
