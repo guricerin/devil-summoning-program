@@ -33,11 +33,11 @@ RESET:
         'AGLA AMEN'
 "
 
-    let printSpell() =
+    let private printSpell() =
         let spell = spell1 + spell2 + spell3 + spell4 + spell5
         Console.WriteLine(spell)
 
-    let private printHexagram() =
+    let printHexagram() =
         let hex =
             """
                       ......
@@ -84,5 +84,4 @@ RESET:
     let printInitiation() =
         Console.Clear()
         printSpell()
-        printHexagram()
         Console.WriteLine()

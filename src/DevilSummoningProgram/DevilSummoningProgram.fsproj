@@ -6,9 +6,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Common.fs" />
-    <Compile Include="Spell.fs" />
+    <Compile Include="ResultBuilder.fs" />
+    <Compile Include="Json.fs" />
     <Compile Include="Race.fs" />
     <Compile Include="Devil.fs" />
+    <Compile Include="Spell.fs" />
     <Compile Include="Command.fs" />
     <Compile Include="Repl.fs" />
     <Compile Include="Program.fs" />

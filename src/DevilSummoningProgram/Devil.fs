@@ -1,16 +1,8 @@
 namespace DevilSummoningProgram.Devil
 
 open System
+open DevilSummoningProgram.ResultBuilder
 open DevilSummoningProgram.Race
-
-module ResultBuilder =
-
-    type ResultBuilder() =
-        member this.Return x = Ok x
-        member this.Zero() = Ok()
-        member this.Bind(xResult, f) = Result.bind f xResult
-
-    let result = ResultBuilder()
 
 [<RequireQualifiedAccessAttribute>]
 module Domain =
@@ -34,25 +26,52 @@ module Domain =
 [<RequireQualifiedAccessAttribute>]
 module Dto =
 
-    open ResultBuilder
-
+    // フィールドは組み込み型 or DTO型でなければならない
     type Devil =
         { name: string
           race: string }
 
-    let toDomain (devil: Devil): Result<Domain.Devil, string> =
+    module Devil =
+
+        let toDomain (devil: Devil): Result<Domain.Devil, string> =
+            result {
+                let! name = devil.name |> Domain.String50.create "name"
+                let! race = devil.race |> Race.fromString
+                return { name = name
+                         race = race }
+            }
+
+        let fromDomain (devil: Domain.Devil): Devil =
+            let name = devil.name |> Domain.String50.value
+            let race = devil.race |> Race.toString
+            { name = name
+              race = race }
+
+[<RequireQualifiedAccessAttribute>]
+module DevilJson =
+
+    open DevilSummoningProgram.Json
+
+    /// serialize a Devil into a JSON string
+    let jsonFromDomain (devil: Domain.Devil) =
+        devil
+        |> Dto.Devil.fromDomain
+        |> JsonWrapper.serialize
+
+    type DtoError =
+        | ValidationError of string
+        | DeserializationException of exn
+
+    /// deserialize a JSON string into a Devil
+    let jsonToDomain jsonString: Result<Domain.Devil, DtoError> =
         result {
-            let! name = devil.name |> Domain.String50.create "name"
-            // todo: string to race
-            let! race = devil.race |> Domain.String50.create "race"
-            return { name = name
-                     race = race }
+            let! deserializedValue = jsonString
+                                     |> JsonWrapper.deserialize
+                                     |> Result.mapError DeserializationException
+
+            let! domainValue = deserializedValue
+                               |> Dto.Devil.toDomain
+                               |> Result.mapError ValidationError
+
+            return domainValue
         }
-
-
-    let fromDomain (devil: Domain.Devil): Devil =
-        let name = devil.name |> Domain.String50.value
-        // todo: race to string
-        let race = ""
-        { name = name
-          race = race }

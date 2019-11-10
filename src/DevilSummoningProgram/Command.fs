@@ -1,6 +1,10 @@
 namespace DevilSummoningProgram
 
 open System
+open DevilSummoningProgram.ResultBuilder
+open DevilSummoningProgram.Json
+open DevilSummoningProgram.Race
+open DevilSummoningProgram.Devil
 
 [<RequireQualifiedAccessAttribute>]
 module Command =
@@ -27,34 +31,76 @@ command:
 "
         Console.WriteLine(text)
 
-    let summonCommand() = Console.WriteLine("not implemented.")
+    module Summon =
 
-    let registerCommand() =
-        Console.ForegroundColor <- ConsoleColor.Blue
-        Console.Write("input devil's name> ")
-        Console.ResetColor()
-        let name = Console.ReadLine().Trim().ToLower()
-        Console.ForegroundColor <- ConsoleColor.Blue
-        Console.Write("input devil's race> ")
-        Console.ResetColor()
-        let race = Console.ReadLine().Trim().ToLower()
-        printfn "%s %s" race name
+        let displayDevilData jsonStr =
+            match DevilJson.jsonToDomain jsonStr with
+            | Ok(domain) ->
+                Console.Clear()
+                Common.printColoredTexts ConsoleColor.Cyan [ ""; "Summon the devil." ]
+                Spell.printHexagram()
+                let name = domain.name |> Domain.String50.value
+                let race = domain.race
+
+                let text =
+                    sprintf "%A %s\n" race name
+                Console.WriteLine(text)
+            | Error(ex) ->
+                let text = sprintf "%A" ex
+                Console.WriteLine(text)
+
+        let command() =
+            Console.ForegroundColor <- ConsoleColor.Cyan
+            Console.Write("input devil's name> ")
+            Console.ResetColor()
+            let name = Console.ReadLine().Trim().ToLower()
+            match JsonFileIO.read name with
+            | Ok(str) -> str |> displayDevilData
+            | Error(msg) -> Common.printColoredTexts ConsoleColor.DarkRed [ ""; msg; "" ]
+
+    module Register =
+
+        let dtoDevilFromInput(): Dto.Devil =
+            Console.ForegroundColor <- ConsoleColor.Cyan
+            Console.Write("input devil's name> ")
+            Console.ResetColor()
+            let name = Console.ReadLine().Trim().ToLower()
+            Console.ForegroundColor <- ConsoleColor.Cyan
+            Console.Write("input devil's race> ")
+            Console.ResetColor()
+            let race = Console.ReadLine().Trim().ToLower()
+
+            { name = name
+              race = race }
+
+        let command() =
+            let devil = dtoDevilFromInput() |> Dto.Devil.toDomain
+            match devil with
+            | Ok(domain) ->
+                try
+                    domain
+                    |> DevilJson.jsonFromDomain
+                    |> JsonFileIO.write (domain.name |> Domain.String50.value)
+                    Common.printColoredTexts ConsoleColor.Cyan [ ""; "Registerd a new devil."; "" ]
+                with ex ->
+                    Common.printColoredTexts ConsoleColor.Red [ ""; "Error occured."; "" ]
+                    Console.WriteLine(ex)
+            | Error(msg) -> Common.printColoredTexts ConsoleColor.Red [ ""; msg; "" ]
 
     let updateCommand() = Console.WriteLine("not implemented.")
 
     let exitCommand() =
         Console.Clear()
-        let texts = [ ""; "Kill the process. Bye."; "" ]
-        Common.printColoredTexts ConsoleColor.DarkRed texts
+        Common.printColoredTexts ConsoleColor.DarkRed [ ""; "Kill this process. Bye."; "" ]
         exit (0)
 
-    let doNothingCommand() = printfn "There is no such command."
+    let doNothingCommand() = Common.printColoredTexts ConsoleColor.Red [ "Unknown command." ]
 
     let doCommand command =
         match command with
         | Help -> helpCommand()
-        | Summon -> summonCommand()
-        | Register -> registerCommand()
+        | Summon -> Summon.command()
+        | Register -> Register.command()
         | Update -> updateCommand()
         | Exit -> exitCommand()
         | _ -> doNothingCommand()
