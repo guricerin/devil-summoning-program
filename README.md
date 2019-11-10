@@ -4,6 +4,19 @@
 ## Usage
 
 ```bash
+usage: [command]
+command:
+  help | h          Display usage.
+  summon | s        Summon a devil.
+  register | r      Register a new devil.
+  update | u        Update a registerd devil's data.
+  list | ls         Display registered devil's data.
+  exit              Kill the program.
+```
+
+## Build
+
+```bash
 $ cd devil-summoning-program/
 $ dotnet run --project src/DevilSummoningProgram/
 ```
