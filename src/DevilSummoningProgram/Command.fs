@@ -4,6 +4,7 @@ open System
 open DevilSummoningProgram
 open DevilSummoningProgram.JsonUtil
 open DevilSummoningProgram.Devil
+open DevilSummoningProgram.Race
 
 [<RequireQualifiedAccessAttribute>]
 module Command =
@@ -19,7 +20,7 @@ module Command =
 
     let helpCommand() =
         let texts = [ ""; "Devil Summoning Program" ]
-        Common.printColoredTexts ConsoleColor.DarkRed texts
+        Common.printColoredTexts ConsoleColor.Red texts
         let text = @"
 usage: [command]
 command:
@@ -32,13 +33,15 @@ command:
 "
         Console.WriteLine(text)
 
+    /// 悪魔の詳細をいい感じに文字列化する
     let devilDatailText (devil: Domain.Devil) =
         let name = devil.name |> Domain.String50.value
-        let race = devil.race
-        sprintf "[%A %s]\n" race name
+        let race = devil.race |> Race.toString
+        sprintf "[%s %s]\n" race name
 
     module Summon =
 
+        /// 六芒星エフェクトと共に悪魔のデータを表示
         let displayDevilData jsonStr =
             match DevilJson.jsonToDomain jsonStr with
             | Ok(domain) ->
@@ -58,15 +61,30 @@ command:
             let name = Console.ReadLine().Trim().ToLower()
             match JsonFileIO.read name with
             | Ok(str) -> str |> displayDevilData
-            | Error(msg) -> Common.printColoredTexts ConsoleColor.DarkRed [ ""; msg; "" ]
+            | Error(msg) -> Common.printColoredTexts ConsoleColor.Red [ ""; msg; "" ]
 
     module Register =
 
+        /// 悪魔種族を一覧表示
+        let printDevilRaces() =
+            Console.ResetColor()
+            printfn "`\n[種族一覧]\n"
+            Race.races
+            |> List.map Race.toString
+            |> List.splitInto 6
+            // 種族名の間に空白を挿入し、行間を2行空ける
+            |> List.map
+                ((fun ls -> List.fold (fun acc s -> sprintf "%s %s" acc s) "" ls)
+                 >> (fun s -> sprintf "%s\n" s))
+            |> List.iter (fun s -> printfn "%s" s)
+
+        /// 入力から悪魔を生成（バリデーションはまだ行わない）
         let dtoDevilFromInput(): Dto.Devil =
             Console.ForegroundColor <- ConsoleColor.Cyan
             Console.Write("input devil's name> ")
             Console.ResetColor()
             let name = Console.ReadLine().Trim().ToLower()
+            printDevilRaces()
             Console.ForegroundColor <- ConsoleColor.Cyan
             Console.Write("input devil's race> ")
             Console.ResetColor()
@@ -92,6 +110,7 @@ command:
     module Update =
 
         let dtoDevilFromInput (devil: Domain.Devil): Dto.Devil =
+            Register.printDevilRaces()
             Console.ForegroundColor <- ConsoleColor.Cyan
             Console.Write("input devil's race> ")
             Console.ResetColor()
@@ -100,6 +119,7 @@ command:
             { name = devil.name |> Domain.String50.value
               race = race }
 
+        /// jsonファイル強制上書き
         let writeForce (devil: Domain.Devil) =
             let devil = dtoDevilFromInput devil |> Dto.Devil.toDomain
             match devil with
@@ -130,7 +150,7 @@ command:
                 match DevilJson.jsonToDomain jsonStr with
                 | Ok(domain) -> yesOrNo domain
                 | Error(_) -> failwith "unreachable!"
-            | Error(msg) -> Common.printColoredTexts ConsoleColor.DarkRed [ ""; msg; "" ]
+            | Error(msg) -> Common.printColoredTexts ConsoleColor.Red [ ""; msg; "" ]
 
     module Ls =
 
@@ -152,7 +172,7 @@ command:
 
     let exitCommand() =
         Console.Clear()
-        Common.printColoredTexts ConsoleColor.DarkRed [ ""; "Kill this process. Bye."; "" ]
+        Common.printColoredTexts ConsoleColor.Red [ ""; "Kill this process. Bye."; "" ]
         exit (0)
 
     let doNothingCommand() = Common.printColoredTexts ConsoleColor.Red [ "Unknown command." ]

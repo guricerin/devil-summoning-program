@@ -3,257 +3,307 @@ namespace DevilSummoningProgram.Race
 /// 大種族
 type Species =
     /// 神族
-    | Gods
+    | Shinzoku
     /// 鬼神族
-    | Guardians
+    | Kishinzoku
     /// 魔族
-    | Magica
+    | Majinzoku
     /// 飛天族
-    | Aerials
+    | Hitenzoku
     /// 龍族
-    | Dragons
+    | Ryuzoku
     /// 鳥族
-    | Birds
+    | Torizoku
     /// 獣族
-    | Beasts
+    | Kemonozoku
     /// 鬼族
-    | Demoniacs
+    | Onizoku
     /// 邪霊族
-    | EvilSpirits
+    | Jareizoku
     /// 樹霊族
-    | Vegetation
+    | Jureizoku
     /// 虫族
-    | Bugs
+    | Mushizoku
     /// 外道族
-    | Fouls
+    | Gedouzoku
     /// 精霊族
-    | Elementals
-    /// 人
-    | Humans
+    | Seireizoku
+    /// 人間
+    | Hitozoku
     override this.ToString() =
         match this with
-        | Gods -> "Gods(神族)"
-        | Guardians -> "Guardians(鬼神族)"
-        | Magica -> "Magica(魔族)"
-        | Aerials -> "Aerials(飛天族)"
-        | Dragons -> "Dragons(龍族)"
-        | Birds -> "Birds(鳥)"
-        | Beasts -> "Beasts(獣族)"
-        | Demoniacs -> "Demoniacs(鬼族)"
-        | EvilSpirits -> "EvilSpirits(邪霊族)"
-        | Vegetation -> "Vegetation(樹霊族)"
-        | Bugs -> "Bugs(虫族)"
-        | Fouls -> "Fouls(外道族)"
-        | Elementals -> "Elementals(精霊族)"
-        | Humans -> "Humans(人)"
+        | Shinzoku -> "神族"
+        | Kishinzoku -> "鬼神族"
+        | Majinzoku -> "魔族"
+        | Hitenzoku -> "飛天族"
+        | Ryuzoku -> "龍族"
+        | Torizoku -> "鳥族"
+        | Kemonozoku -> "獣族"
+        | Onizoku -> "鬼族"
+        | Jareizoku -> "邪霊族"
+        | Jureizoku -> "樹霊族"
+        | Mushizoku -> "虫族"
+        | Gedouzoku -> "外道族"
+        | Seireizoku -> "精霊族"
+        | Hitozoku -> "人間"
 
 /// 種族
 type Race =
-    | Deity // 魔神
+    | Majin // 魔神
     | Megami // 女神
-    | Nymph // 天女
-    | Amatsu // 天津神
-    | Enigma // 秘神
-    | Entity // 威霊
-    | Fury // 破壊神
-    | Lady // 地母神
+    | Tennyo // 天女
+    | Amatsukami // 天津神
+    | Hishin // 秘神
+    | Irei // 威霊
+    | Hakaishin // 破壊神
+    | Jiboshin // 地母神
     | Kishin // 鬼神
-    | Kunitsu // 国津神
-    | Vile // 邪神
-    | Reaper // 死神
-    | Zealot // 狂神
+    | Kunitsukami // 国津神
+    | Jashin // 邪神
+    | Sinigami // 死神
+    | Kyoshin // 狂神
     | Genma // 幻魔
-    | Yoma // 妖魔
-    | Fairy // 妖精
-    | Night // 夜魔
-    | Tyrant // 魔王
-    | Herald // 大天使
-    | Divine // 天使
-    | Fallen // 堕天使
-    | Dragon // 龍神
-    | Snake // 竜王
-    | Drake // 邪竜
-    | Avian // 霊鳥
-    | Flight // 妖鳥
-    | Raptor // 凶鳥
-    | Avatar // 神獣
-    | Holy // 聖獣
-    | Beast // 魔獣
-    | Wilder // 妖獣
-    | UMA // 珍獣
-    | Jirae // 地霊
-    | Brute // 妖鬼
-    | Femme // 鬼女
+    | Youma // 妖魔
+    | Yousei // 妖精
+    | Yama // 夜魔
+    | Maou // 魔王
+    | Daitensi // 大天使
+    | Tensi // 天使
+    | Datensi // 堕天使
+    | Ryujin // 龍神
+    | Ryuou // 竜王
+    | Jaryu // 邪竜
+    | Reityou // 霊鳥
+    | Youtyou // 妖鳥
+    | Kyoutyou // 凶鳥
+    | Sinjuu // 神獣
+    | Seijuu // 聖獣
+    | Majuu // 魔獣
+    | Youjuu // 妖獣
+    | Chinjuu // 珍獣
+    | Chirei // 地霊
+    | Youki // 妖鬼
+    | Onionna // 鬼女
     | Jaki // 邪鬼
-    | Undead // 屍鬼
-    | Haunt // 幽鬼
-    | Spirit // 悪霊
-    | Tree // 神樹
-    | Wood // 妖樹
-    | Vermin // 妖虫
-    | Foul // 外道
-    | Element // 精霊
+    | Siki // 屍鬼
+    | Yuuki // 幽鬼
+    | Akuryou // 悪霊
+    | Sinju // 神樹
+    | Youju // 妖樹
+    | Youtyuu // 妖虫
+    | Gedou // 外道
+    | Seirei // 精霊
     | Mitama // 御魂
-    | Human // 人間
-    | Hero // 英雄
-    | Fiend // 魔人
+    | Ningen // 人間
+    | Eiyuu // 英雄
+    | Mazin // 魔人
 
 [<RequireQualifiedAccessAttribute>]
 module Race =
 
+    let races =
+        [ Race.Majin
+          Race.Megami
+          Race.Tennyo
+          Race.Amatsukami
+          Race.Hishin
+          Race.Irei
+          Race.Hakaishin
+          Race.Jiboshin
+          Race.Kishin
+          Race.Kunitsukami
+          Race.Jashin
+          Race.Sinigami
+          Race.Kyoshin
+          Race.Genma
+          Race.Youma
+          Race.Yousei
+          Race.Yama
+          Race.Maou
+          Race.Daitensi
+          Race.Tensi
+          Race.Datensi
+          Race.Ryujin
+          Race.Ryuou
+          Race.Jaryu
+          Race.Reityou
+          Race.Youtyou
+          Race.Kyoutyou
+          Race.Sinjuu
+          Race.Seijuu
+          Race.Majuu
+          Race.Youjuu
+          Race.Chinjuu
+          Race.Chirei
+          Race.Youki
+          Race.Onionna
+          Race.Jaki
+          Race.Siki
+          Race.Yuuki
+          Race.Akuryou
+          Race.Sinju
+          Race.Youju
+          Race.Youtyuu
+          Race.Gedou
+          Race.Seirei
+          Race.Mitama
+          Race.Ningen
+          Race.Eiyuu
+          Race.Mazin ]
+
     let toString race =
         match race with
-        | Deity -> "Deity"
-        | Megami -> "Megami"
-        | Nymph -> "Nymph"
-        | Amatsu -> "Amatsu"
-        | Enigma -> "Enigma"
-        | Entity -> "Entity"
-        | Fury -> "Fury"
-        | Lady -> "Lady"
-        | Kishin -> "Kishin"
-        | Kunitsu -> "Kunitsu"
-        | Vile -> "Vile"
-        | Reaper -> "Reaper"
-        | Zealot -> "Zealot"
-        | Genma -> "Genma"
-        | Yoma -> "Yoma"
-        | Fairy -> "Fairy"
-        | Night -> "Night"
-        | Tyrant -> "Tyrant"
-        | Herald -> "Herald"
-        | Divine -> "Divine"
-        | Fallen -> "Fallen"
-        | Dragon -> "Dragon"
-        | Snake -> "Snake"
-        | Drake -> "Drake"
-        | Avian -> "Avian"
-        | Flight -> "Flight"
-        | Raptor -> "Raptor"
-        | Avatar -> "Avatar"
-        | Holy -> "Holy"
-        | Beast -> "Beast"
-        | Wilder -> "Wilder"
-        | UMA -> "UMA"
-        | Jirae -> "Jirae"
-        | Brute -> "Brute"
-        | Femme -> "Femme"
-        | Jaki -> "Jaki"
-        | Undead -> "Undead"
-        | Haunt -> "Haunt"
-        | Spirit -> "Spirit"
-        | Tree -> "Tree"
-        | Wood -> "Wood"
-        | Vermin -> "Vermin"
-        | Foul -> "Foul"
-        | Element -> "Element"
-        | Mitama -> "Mitama"
-        | Human -> "Human"
-        | Hero -> "Hero"
-        | Fiend -> "Fiend"
+        | Majin -> "魔神"
+        | Megami -> "女神"
+        | Tennyo -> "女神"
+        | Amatsukami -> "天津神"
+        | Hishin -> "秘神"
+        | Irei -> "威霊"
+        | Hakaishin -> "破壊神"
+        | Jiboshin -> "地母神"
+        | Kishin -> "鬼神"
+        | Kunitsukami -> "国津神"
+        | Jashin -> "邪神"
+        | Sinigami -> "死神"
+        | Kyoshin -> "狂神"
+        | Genma -> "幻魔"
+        | Youma -> "妖魔"
+        | Yousei -> "妖精"
+        | Yama -> "夜魔"
+        | Maou -> "魔王"
+        | Daitensi -> "大天使"
+        | Tensi -> "天使"
+        | Datensi -> "堕天使"
+        | Ryujin -> "龍神"
+        | Ryuou -> "竜王"
+        | Jaryu -> "邪竜"
+        | Reityou -> "霊鳥"
+        | Youtyou -> "妖鳥"
+        | Kyoutyou -> "凶鳥"
+        | Sinjuu -> "神獣"
+        | Seijuu -> "聖獣"
+        | Majuu -> "魔獣"
+        | Youjuu -> "妖獣"
+        | Chinjuu -> "珍獣"
+        | Chirei -> "地霊"
+        | Youki -> "妖鬼"
+        | Onionna -> "鬼女"
+        | Jaki -> "邪鬼"
+        | Siki -> "屍鬼"
+        | Yuuki -> "幽鬼"
+        | Akuryou -> "悪霊"
+        | Sinju -> "神樹"
+        | Youju -> "妖樹"
+        | Youtyuu -> "妖虫"
+        | Gedou -> "外道"
+        | Seirei -> "精霊"
+        | Mitama -> "御霊"
+        | Ningen -> "人間"
+        | Eiyuu -> "英雄"
+        | Mazin -> "魔人"
 
     let fromString (str: string) =
         // 先頭の1文字だけ大文字に変換
         let str = str.ToLower()
         let str = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(str)
         match str with
-        | _ when str = "Deity" -> Ok(Deity)
-        | _ when str = "Megami" -> Ok(Megami)
-        | _ when str = "Nymph" -> Ok(Nymph)
-        | _ when str = "Amatsu" -> Ok(Amatsu)
-        | _ when str = "Enigma" -> Ok(Enigma)
-        | _ when str = "Entity" -> Ok(Entity)
-        | _ when str = "Fury" -> Ok(Fury)
-        | _ when str = "Lady" -> Ok(Lady)
-        | _ when str = "Kishin" -> Ok(Kishin)
-        | _ when str = "Kunitsu" -> Ok(Kunitsu)
-        | _ when str = "Vile" -> Ok(Vile)
-        | _ when str = "Reaper" -> Ok(Reaper)
-        | _ when str = "Zealot" -> Ok(Zealot)
-        | _ when str = "Genma" -> Ok(Genma)
-        | _ when str = "Yoma" -> Ok(Yoma)
-        | _ when str = "Fairy" -> Ok(Fairy)
-        | _ when str = "Night" -> Ok(Night)
-        | _ when str = "Tyrant" -> Ok(Tyrant)
-        | _ when str = "Herald" -> Ok(Herald)
-        | _ when str = "Divine" -> Ok(Divine)
-        | _ when str = "Fallen" -> Ok(Fallen)
-        | _ when str = "Dragon" -> Ok(Dragon)
-        | _ when str = "Snake" -> Ok(Snake)
-        | _ when str = "Drake" -> Ok(Drake)
-        | _ when str = "Avian" -> Ok(Avian)
-        | _ when str = "Flight" -> Ok(Flight)
-        | _ when str = "Raptor" -> Ok(Raptor)
-        | _ when str = "Avatar" -> Ok(Avatar)
-        | _ when str = "Holy" -> Ok(Holy)
-        | _ when str = "Beast" -> Ok(Beast)
-        | _ when str = "Wilder" -> Ok(Wilder)
-        | _ when str = "UMA" -> Ok(UMA)
-        | _ when str = "Jirae" -> Ok(Jirae)
-        | _ when str = "Brute" -> Ok(Brute)
-        | _ when str = "Femme" -> Ok(Femme)
-        | _ when str = "Jaki" -> Ok(Jaki)
-        | _ when str = "Undead" -> Ok(Undead)
-        | _ when str = "Haunt" -> Ok(Haunt)
-        | _ when str = "Spirit" -> Ok(Spirit)
-        | _ when str = "Tree" -> Ok(Tree)
-        | _ when str = "Wood" -> Ok(Wood)
-        | _ when str = "Vermin" -> Ok(Vermin)
-        | _ when str = "Foul" -> Ok(Foul)
-        | _ when str = "Element" -> Ok(Element)
-        | _ when str = "Mitama" -> Ok(Mitama)
-        | _ when str = "Human" -> Ok(Human)
-        | _ when str = "Hero" -> Ok(Hero)
-        | _ when str = "Fiend" -> Ok(Fiend)
+        | _ when str = "魔神" -> Ok(Majin)
+        | _ when str = "女神" -> Ok(Megami)
+        | _ when str = "天女" -> Ok(Tennyo)
+        | _ when str = "天津神" -> Ok(Amatsukami)
+        | _ when str = "秘神" -> Ok(Hishin)
+        | _ when str = "威霊" -> Ok(Irei)
+        | _ when str = "破壊神" -> Ok(Hakaishin)
+        | _ when str = "地母神" -> Ok(Jiboshin)
+        | _ when str = "鬼神" -> Ok(Kishin)
+        | _ when str = "国津神" -> Ok(Kunitsukami)
+        | _ when str = "邪神" -> Ok(Jashin)
+        | _ when str = "死神" -> Ok(Sinigami)
+        | _ when str = "狂神" -> Ok(Kyoshin)
+        | _ when str = "幻魔" -> Ok(Genma)
+        | _ when str = "妖魔" -> Ok(Youma)
+        | _ when str = "妖精" -> Ok(Yousei)
+        | _ when str = "夜魔" -> Ok(Yama)
+        | _ when str = "魔王" -> Ok(Maou)
+        | _ when str = "大天使" -> Ok(Daitensi)
+        | _ when str = "天使" -> Ok(Tensi)
+        | _ when str = "堕天使" -> Ok(Datensi)
+        | _ when str = "龍神" -> Ok(Ryujin)
+        | _ when str = "竜王" -> Ok(Ryuou)
+        | _ when str = "邪竜" -> Ok(Jaryu)
+        | _ when str = "霊鳥" -> Ok(Reityou)
+        | _ when str = "妖鳥" -> Ok(Youtyou)
+        | _ when str = "凶鳥" -> Ok(Kyoutyou)
+        | _ when str = "神獣" -> Ok(Sinjuu)
+        | _ when str = "聖獣" -> Ok(Seijuu)
+        | _ when str = "魔獣" -> Ok(Majuu)
+        | _ when str = "妖樹" -> Ok(Youjuu)
+        | _ when str = "珍獣" -> Ok(Chinjuu)
+        | _ when str = "地霊" -> Ok(Chirei)
+        | _ when str = "幽鬼" -> Ok(Youki)
+        | _ when str = "鬼女" -> Ok(Onionna)
+        | _ when str = "邪鬼" -> Ok(Jaki)
+        | _ when str = "屍鬼" -> Ok(Siki)
+        | _ when str = "幽鬼" -> Ok(Yuuki)
+        | _ when str = "悪霊" -> Ok(Akuryou)
+        | _ when str = "神樹" -> Ok(Sinju)
+        | _ when str = "妖樹" -> Ok(Youju)
+        | _ when str = "妖虫" -> Ok(Youtyuu)
+        | _ when str = "外道" -> Ok(Gedou)
+        | _ when str = "精霊" -> Ok(Seirei)
+        | _ when str = "御霊" -> Ok(Mitama)
+        | _ when str = "人間" -> Ok(Ningen)
+        | _ when str = "英雄" -> Ok(Eiyuu)
+        | _ when str = "魔人" -> Ok(Mazin)
         | _ -> Error("There is not such a race.")
 
     let toSpecies race =
         match race with
-        | Deity
+        | Majin
         | Megami
-        | Nymph
-        | Amatsu
-        | Enigma
-        | Entity -> Gods
-        | Fury
-        | Lady
+        | Tennyo
+        | Amatsukami
+        | Hishin
+        | Irei -> Shinzoku
+        | Hakaishin
+        | Jiboshin
         | Kishin
-        | Kunitsu
-        | Vile
-        | Reaper
-        | Zealot -> Guardians
+        | Kunitsukami
+        | Jashin
+        | Sinigami
+        | Kyoshin -> Kishinzoku
         | Genma
-        | Yoma
-        | Fairy
-        | Night
-        | Tyrant -> Magica
-        | Herald
-        | Divine
-        | Fallen -> Aerials
-        | Dragon
-        | Snake
-        | Drake -> Dragons
-        | Avian
-        | Flight
-        | Raptor -> Birds
-        | Avatar
-        | Holy
-        | Beast
-        | Wilder
-        | UMA -> Beasts
-        | Jirae
-        | Brute
-        | Femme
-        | Jaki -> Demoniacs
-        | Undead
-        | Haunt
-        | Spirit -> EvilSpirits
-        | Tree
-        | Wood -> Vegetation
-        | Vermin -> Bugs
-        | Foul -> Fouls
-        | Element
-        | Mitama -> Elementals
-        | Human
-        | Hero
-        | Fiend -> Humans
+        | Youma
+        | Yousei
+        | Yama
+        | Maou -> Majinzoku
+        | Daitensi
+        | Tensi
+        | Datensi -> Hitenzoku
+        | Ryujin
+        | Ryuou
+        | Jaryu -> Ryuzoku
+        | Reityou
+        | Youtyou
+        | Kyoutyou -> Torizoku
+        | Sinjuu
+        | Seijuu
+        | Majuu
+        | Youjuu
+        | Chinjuu -> Kemonozoku
+        | Chirei
+        | Youki
+        | Onionna
+        | Jaki -> Onizoku
+        | Siki
+        | Yuuki
+        | Akuryou -> Jareizoku
+        | Sinju
+        | Youju -> Jureizoku
+        | Youtyuu -> Mushizoku
+        | Gedou -> Gedouzoku
+        | Seirei
+        | Mitama -> Seireizoku
+        | Ningen
+        | Eiyuu
+        | Mazin -> Hitozoku
